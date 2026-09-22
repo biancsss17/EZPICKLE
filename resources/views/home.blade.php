@@ -278,19 +278,11 @@
 <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Accepted Payments</h4>
 <div class="flex flex-wrap gap-2">
 <span class="px-3 py-1.5 rounded-full text-xs font-bold bg-[#007dfe] text-white">GCash</span>
-<span class="px-3 py-1.5 rounded-full text-xs font-bold bg-[#00c58a] text-white">Maya</span>
-<span class="px-3 py-1.5 rounded-full text-xs font-bold bg-[#00b14f] text-white">GrabPay</span>
-<span class="px-3 py-1.5 rounded-full text-xs font-bold bg-[#ee4d2d] text-white">ShopeePay</span>
-<span class="px-3 py-1.5 rounded-full text-xs font-bold bg-[#b71c1c] text-white">BPI</span>
-<span class="px-3 py-1.5 rounded-full text-xs font-bold bg-[#003882] text-white">BDO</span>
-<span class="px-3 py-1.5 rounded-full text-xs font-bold bg-[#f58220] text-white">UnionBank</span>
-<span class="px-3 py-1.5 rounded-full text-xs font-bold bg-[#5b21b6] text-white">InstaPay</span>
-<span class="px-3 py-1.5 rounded-full text-xs font-bold bg-[#007f3e] text-white">7-Eleven</span>
 </div>
 </div>
 </div>
 <!-- Right Column: Interactive Available Slots Board -->
-<div class="lg:col-span-7 bg-white rounded-3xl p-8 card-shadow border border-slate-100 min-h-[580px] flex flex-col justify-between">
+<div id="available-slots-panel" class="lg:col-span-7 bg-white rounded-3xl p-8 card-shadow border border-slate-100 min-h-[580px] flex flex-col justify-between">
 <div>
 <!-- Slots Header & Legend -->
 <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-100">
@@ -314,7 +306,7 @@
 </div>
 </div>
 <!-- Available Time Slots Grid -->
-<div class="mt-6">
+<div id="static-slots" class="mt-6">
 <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Day Sessions (₱200/hr)</div>
 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
 <button class="p-3.5 rounded-2xl border border-emerald-200 bg-emerald-50/50 hover:bg-emerald-100/70 text-left transition" type="button">
@@ -344,7 +336,7 @@
 </div>
 </div>
 <!-- Evening Time Slots -->
-<div class="mt-8">
+<div id="static-evening-slots" class="mt-8">
 <div class="text-xs font-bold text-pink-600 uppercase tracking-wider mb-3">Evening Sessions (₱250/hr • Lights Included)</div>
 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
 <!-- Selected Time Slot -->
@@ -895,6 +887,44 @@
 </footer>
 <!-- END: MainFooter -->
 
+@if (session('booking_success'))
+<div data-booking-notice class="fixed inset-x-4 top-6 z-[70] mx-auto max-w-xl rounded-2xl bg-emerald-600 px-6 py-4 text-center text-sm font-semibold text-white shadow-2xl">
+  {{ session('booking_success') }}
+</div>
+@endif
+
+@if ($errors->has('booking'))
+<div data-booking-notice class="fixed inset-x-4 top-6 z-[70] mx-auto max-w-xl rounded-2xl bg-rose-600 px-6 py-4 text-center text-sm font-semibold text-white shadow-2xl">
+  {{ $errors->first('booking') }}
+</div>
+@endif
+
+<div id="booking-modal" class="fixed inset-0 z-[65] hidden items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm">
+  <div class="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl bg-white p-6 shadow-2xl md:p-8">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wider text-pink-600">Confirm your booking</p>
+        <h2 class="mt-2 text-2xl font-bold text-slate-900">Complete your details</h2>
+        <p id="booking-modal-summary" class="mt-2 text-sm text-slate-500"></p>
+      </div>
+      <button type="button" data-close-booking-modal class="rounded-full bg-slate-100 px-3 py-2 text-xl leading-none text-slate-500">×</button>
+    </div>
+    <form action="{{ route('reservations.store') }}" method="POST" class="mt-6 space-y-4">
+      @csrf
+      <input type="hidden" name="court" id="reservation-court">
+      <input type="hidden" name="booking_date" id="reservation-date">
+      <input type="hidden" name="start_time" id="reservation-start-time">
+      <input type="hidden" name="duration_hours" id="reservation-duration" value="1">
+      <input type="hidden" name="amount" id="reservation-amount">
+      <label class="block text-sm font-semibold text-slate-700">Full name<input required name="customer_name" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-pink-500" autocomplete="name"></label>
+      <label class="block text-sm font-semibold text-slate-700">Phone number<input required name="customer_phone" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-pink-500" autocomplete="tel"></label>
+      <label class="block text-sm font-semibold text-slate-700">Email <span class="font-normal text-slate-400">(optional)</span><input type="email" name="customer_email" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-pink-500" autocomplete="email"></label>
+      <label class="block text-sm font-semibold text-slate-700">GCash reference <span class="font-normal text-slate-400">(optional until payment)</span><input name="gcash_reference" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-pink-500" placeholder="Reference number"></label>
+      <div class="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">After submitting, send your GCash receipt to <strong class="text-slate-900">0916-832-5627</strong>. Your reservation will remain pending until payment is verified.</div>
+      <button class="w-full rounded-full bg-gradient-to-r from-pink-600 via-rose-500 to-emerald-500 px-6 py-3 font-bold text-white" type="submit">Submit Reservation</button>
+    </form>
+  </div>
+</div>
 
 
 
