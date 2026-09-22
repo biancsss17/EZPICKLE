@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="EZPICKLE premium pickleball court bookings">
+  <title>EZPICKLE — Book a Court</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="EZPICKLE home"><span class="brand-mark">✦</span> EZ<span>PICKLE</span></a>
+    <nav aria-label="Main navigation">
+      <a href="#book">Book</a><a href="#courts">Courts</a><a href="#pricing">Pricing</a><a href="#how-it-works">How it works</a><a href="#faq">FAQ</a>
+    </nav>
+    <a class="button button-small" href="#book">Reserve a court</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Austin's premier pickleball courts</p>
+        <h1>Serve up<br><em>something</em><br>different.</h1>
+        <p class="hero-text">Book premium indoor and outdoor pickleball courts instantly. No phone tag, no waiting — just pick a slot and play.</p>
+        <div class="hero-actions"><a class="button" href="#book">Book a court now →</a><a class="button button-ghost" href="#courts">View courts</a></div>
+        <div class="stats"><div><strong>4.9 ★</strong><span>Average rating</span></div><div><strong>2,400+</strong><span>Players monthly</span></div><div><strong>60s</strong><span>Booking speed</span></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="courts">
+      <div class="section-heading"><p class="eyebrow">Our facilities</p><h2>Four courts,<br><em>zero compromises.</em></h2></div>
+      <div class="court-grid">
+        <article class="court-card"><img src="images/court-alpha.png" alt="Court Alpha"><div class="court-content"><h3>Court Alpha</h3><p>Hardcourt • 183 reviews</p><div class="tags"><span>☼ Lights</span><span>Parking</span><span>Water station</span></div><button class="button court-select" data-court="Court Alpha" data-price="250">Reserve Court Alpha</button></div></article>
+        <article class="court-card"><img src="images/court-beta.png" alt="Court Beta"><div class="court-content"><h3>Court Beta</h3><p>Maple hardwood • 97 reviews</p><div class="tags"><span>♟ A/C</span><span>Showers</span><span>Locker room</span></div><button class="button court-select" data-court="Court Beta" data-price="250">Reserve Court Beta</button></div></article>
+        <article class="court-card"><img src="images/court-gamma.png" alt="Court Gamma"><div class="court-content"><h3>Court Gamma</h3><p>Hardcourt • 64 reviews</p><div class="tags"><span>☼ Lights</span><span>Parking</span><span>Restrooms</span></div><button class="button court-select" data-court="Court Gamma" data-price="200">Reserve Court Gamma</button></div></article>
+        <article class="court-card"><img src="images/court-delta.png" alt="Court Delta"><div class="court-content"><h3>Court Delta</h3><p>Maple hardwood • 42 reviews</p><div class="tags"><span>♟ A/C</span><span>Parking</span><span>Water station</span></div><button class="button court-select" data-court="Court Delta" data-price="250">Reserve Court Delta</button></div></article>
+      </div>
+    </section>
+
+    <section class="section booking-section" id="book">
+      <div class="section-heading"><p class="eyebrow">Reserve instantly</p><h2>Pick your court,<br><em>pick your time.</em></h2></div>
+      <div class="booking-layout">
+        <div class="booking-panel">
+          <h4>Select a court</h4><div class="court-options">
+            <button class="court-option active" data-court="Court Alpha" data-price="250"><strong>Court Alpha</strong><small>Outdoor • Hardcourt</small><b>₱250/hr</b></button>
+            <button class="court-option" data-court="Court Beta" data-price="250"><strong>Court Beta</strong><small>Indoor • Maple</small><b>₱250/hr</b></button>
+            <button class="court-option" data-court="Court Gamma" data-price="200"><strong>Court Gamma</strong><small>Outdoor • Hardcourt</small><b>₱200/hr</b></button>
+            <button class="court-option" data-court="Court Delta" data-price="250"><strong>Court Delta</strong><small>Indoor • Maple</small><b>₱250/hr</b></button>
+          </div>
+          <h4 class="calendar-title">Select a date</h4><div class="calendar"><div class="calendar-top"><strong id="month-label"></strong><span><button id="prev-month" aria-label="Previous month">‹</button><button id="next-month" aria-label="Next month">›</button></span></div><div class="weekdays"><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span></div><div class="calendar-days" id="calendar-days"></div></div>
+        </div>
+        <div class="booking-panel slots-panel"><div class="slots-header"><div><h4>Available slots</h4><strong id="date-label"></strong></div><div class="legend"><span>● Open</span><span>● Few left</span><span>● Full</span></div></div><h4>Day sessions <small>(₱200/hr)</small></h4><div class="slots" id="day-slots"></div><h4 class="evening-title">Evening sessions <small>(₱250/hr • lights included)</small></h4><div class="slots" id="evening-slots"></div><div class="booking-summary"><div><small>Total for 1 hour</small><strong id="total">₱250</strong></div><button class="button" id="continue-booking">Continue booking & pay →</button></div></div>
+      </div>
+    </section>
+
+    <section class="section light" id="how-it-works"><div class="section-heading centered"><p class="eyebrow">Simple by design</p><h2>Book in seconds,<br><em>not DMs.</em></h2></div><div class="steps"><div><b>01</b><h3>Pick a court</h3><p>Choose the space that fits your game and your crew.</p></div><div><b>02</b><h3>Choose a time</h3><p>See live availability and select an open slot.</p></div><div><b>03</b><h3>Pay securely</h3><p>Complete payment through your preferred wallet.</p></div><div><b>04</b><h3>Play ball!</h3><p>Your court is locked once payment is verified.</p></div></div></section>
+
+    <section class="section faq-section" id="faq"><div class="section-heading centered"><p class="eyebrow">FAQ</p><h2>Good <em>questions.</em></h2></div><div class="faq-list"><details open><summary>How do I confirm my booking?</summary><p>After reserving a slot, complete payment and send your receipt. Your slot is locked once we verify it.</p></details><details><summary>Can I book multiple hours in one session?</summary><p>Yes. Select consecutive open time slots before continuing your booking.</p></details><details><summary>What happens if I need to cancel?</summary><p>Contact us as soon as possible. Cancellation and refund availability depends on how early you notify us.</p></details><details><summary>Are court lights included?</summary><p>Lights are included automatically for evening sessions.</p></details></div></section>
+  </main>
+  <footer><div class="brand">✦ EZ<span>PICKLE</span></div><p>Austin's best pickleball courts. Book online in seconds.</p><p>© 2026 EZPICKLE. All rights reserved.</p></footer>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>

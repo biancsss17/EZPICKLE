@@ -1,0 +1,18 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const state = { court: 'Court Alpha', price: 250, slot: '5:00 PM – 6:00 PM', date: new Date(2026, 8, 22), month: new Date(2026, 8, 1) };
+  const dayTimes = ['6:00 AM – 7:00 AM','7:00 AM – 8:00 AM','8:00 AM – 9:00 AM','9:00 AM – 10:00 AM','10:00 AM – 11:00 AM','11:00 AM – 12:00 PM'];
+  const eveningTimes = ['5:00 PM – 6:00 PM','6:00 PM – 7:00 PM','7:00 PM – 8:00 PM','8:00 PM – 9:00 PM','9:00 PM – 10:00 PM','10:00 PM – 11:00 PM'];
+  const full = new Set(['9:00 AM – 10:00 AM','10:00 PM – 11:00 PM']);
+  const few = new Set(['8:00 AM – 9:00 AM','7:00 PM – 8:00 PM']);
+  const $ = (s) => document.querySelector(s);
+  const format = (d, options) => d.toLocaleDateString('en-US', options);
+  function updateSummary() { $('#total').textContent = `₱${state.price}`; $('#date-label').textContent = format(state.date, { weekday:'long', month:'long', day:'numeric', year:'numeric' }); }
+  function renderSlots(id, times) { $(id).innerHTML = times.map((time) => { const status = full.has(time) ? 'full' : few.has(time) ? 'few' : ''; const label = full.has(time) ? 'Full' : few.has(time) ? '1 slot left' : time === state.slot ? 'Selected' : 'Open'; return `<button class="slot ${status} ${time === state.slot ? 'selected' : ''}" ${status === 'full' ? 'disabled' : ''} data-slot="${time}"><strong>${time}</strong><span>${label}</span></button>`; }).join(''); }
+  function renderCalendar() { const first = (new Date(state.month.getFullYear(), state.month.getMonth(), 1).getDay() + 6) % 7; const total = new Date(state.month.getFullYear(), state.month.getMonth()+1, 0).getDate(); $('#month-label').textContent = format(state.month, { month:'long', year:'numeric' }); $('#calendar-days').innerHTML = `${'<span></span>'.repeat(first)}${Array.from({length:total}, (_, i) => { const day=i+1; const selected = state.date.getFullYear()===state.month.getFullYear() && state.date.getMonth()===state.month.getMonth() && state.date.getDate()===day; return `<button class="${selected ? 'selected' : ''}" data-day="${day}">${day}</button>`; }).join('')}`; updateSummary(); }
+  function selectCourt(court, price) { state.court = court; state.price = Number(price); document.querySelectorAll('[data-court]').forEach((el) => el.classList.toggle('active', el.dataset.court === court)); updateSummary(); }
+  document.querySelectorAll('.court-option,.court-select').forEach((button) => button.addEventListener('click', () => { selectCourt(button.dataset.court, button.dataset.price); $('#book').scrollIntoView({ behavior:'smooth' }); }));
+  document.addEventListener('click', (event) => { const slot = event.target.closest('[data-slot]'); if (slot && !slot.disabled) { state.slot = slot.dataset.slot; state.price = state.slot.includes('PM') ? 250 : 200; renderSlots('#day-slots', dayTimes); renderSlots('#evening-slots', eveningTimes); updateSummary(); } const day = event.target.closest('[data-day]'); if (day) { state.date = new Date(state.month.getFullYear(), state.month.getMonth(), Number(day.dataset.day)); renderCalendar(); } });
+  $('#prev-month').addEventListener('click', () => { state.month.setMonth(state.month.getMonth()-1); renderCalendar(); }); $('#next-month').addEventListener('click', () => { state.month.setMonth(state.month.getMonth()+1); renderCalendar(); });
+  $('#continue-booking').addEventListener('click', () => { const toast = $('#toast'); toast.textContent = `${state.court} reserved for ${state.slot} on ${format(state.date, { month:'short', day:'numeric', year:'numeric' })}. Payment confirmation will follow.`; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 4500); });
+  renderSlots('#day-slots', dayTimes); renderSlots('#evening-slots', eveningTimes); renderCalendar();
+});
