@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 
-PORT_VALUE="${PORT:-10000}"
+# Railway's public domain is configured for port 10000.
+PORT_VALUE="10000"
 
 # PHP's Apache module requires prefork; disable any conflicting MPM first.
 a2dismod mpm_event 2>/dev/null || true
