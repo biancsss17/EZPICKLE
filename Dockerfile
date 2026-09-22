@@ -1,3 +1,4 @@
+# Laravel 13 requires PHP 8.4+
 FROM php:8.4-apache
 
 WORKDIR /var/www/html
