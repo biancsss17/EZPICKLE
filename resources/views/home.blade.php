@@ -920,6 +920,12 @@
       <label class="block text-sm font-semibold text-slate-700">Phone number<input required name="customer_phone" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-pink-500" autocomplete="tel"></label>
       <label class="block text-sm font-semibold text-slate-700">Email <span class="font-normal text-slate-400">(optional)</span><input type="email" name="customer_email" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-pink-500" autocomplete="email"></label>
       <label class="block text-sm font-semibold text-slate-700">GCash reference <span class="font-normal text-slate-400">(optional until payment)</span><input name="gcash_reference" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-pink-500" placeholder="Reference number"></label>
+      <button type="button" data-show-gcash-qr class="w-full rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-bold text-blue-700">Show Demo GCash QR</button>
+      <div data-gcash-qr-panel class="hidden rounded-2xl border border-blue-100 bg-blue-50/50 p-4 text-center">
+        <p class="text-sm font-bold text-slate-800">Demo QR only</p>
+        <img class="mx-auto mt-3 h-48 w-48 rounded-xl bg-white p-2" src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&amp;margin=12&amp;data=EZPICKLE%20DEMO%20GCASH%20PAYMENT%20-%200916-832-5627" alt="Demo GCash QR code">
+        <p class="mt-2 text-xs text-slate-500">This QR is for demonstration and does not process real payments.</p>
+      </div>
       <div class="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">After submitting, send your GCash receipt to <strong class="text-slate-900">0916-832-5627</strong>. Your reservation will remain pending until payment is verified.</div>
       <button class="w-full rounded-full bg-gradient-to-r from-pink-600 via-rose-500 to-emerald-500 px-6 py-3 font-bold text-white" type="submit">Submit Reservation</button>
     </form>

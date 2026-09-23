@@ -298,6 +298,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#booking-modal')?.addEventListener('click', (event) => {
         if (event.target.id === 'booking-modal') event.currentTarget.classList.add('hidden');
     });
+    document.querySelector('[data-show-gcash-qr]')?.addEventListener('click', (event) => {
+        const panel = document.querySelector('[data-gcash-qr-panel]');
+        panel?.classList.toggle('hidden');
+        event.currentTarget.textContent = panel?.classList.contains('hidden') ? 'Show Demo GCash QR' : 'Hide Demo GCash QR';
+    });
 
     const faqAnswers = { 'Can I book multiple hours in one session?': 'Yes. Select an open slot, then use the plus button to add up to four consecutive hours.', 'What happens if I need to cancel?': 'Contact us as soon as possible. Cancellation and refund availability depends on how far in advance you notify us.', 'Are court lights included?': 'Lights are included automatically for evening sessions from 4:00 PM to 11:00 PM.', 'Do you provide paddles and balls?': 'Bring your own equipment or message us before booking to confirm current rental availability.', 'Is the facility open on holidays?': 'Yes, the facility is open daily from 6:00 AM to 11:00 PM, including most holidays.' };
     document.querySelectorAll('#faq .space-y-4 > div').forEach((item) => { const question = item.querySelector('h3')?.textContent.trim(); let answer = item.querySelector('.border-t'); if (!answer && faqAnswers[question]) { answer = document.createElement('div'); answer.className = 'mt-4 hidden border-t border-slate-100 pt-4 pl-8 text-sm leading-relaxed text-slate-500'; answer.textContent = faqAnswers[question]; item.appendChild(answer); } if (!answer) return; item.addEventListener('click', () => { const open = !answer.classList.contains('hidden'); document.querySelectorAll('#faq .space-y-4 > div .border-t').forEach((other) => other.classList.add('hidden')); if (!open) answer.classList.remove('hidden'); }); });
